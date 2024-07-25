@@ -3,14 +3,17 @@ def main():
     text = get_book_text(book_path)
     num_words = word_count(text)
     print(f"--- Begin report of {book_path} ---")
-    print(f"{num_words} words found in the document")
+    print(f"{num_words} words found in the document", "\n")
     letter_count = count_chars(text)
     sortable_letter_count = kvp_list(letter_count)
-    # sortable_letter_count.sort(reverse=True, key=sort_on)
-    print(sortable_letter_count)
     sortable_letter_count.sort(reverse=True, key=sort_on)
-    print(sortable_letter_count)
+    
+    for dict in sortable_letter_count:
+       alpha = dict['letter']
+       number = dict['count']
+       print(f"The '{alpha}' character was found {number} times")
 
+    print("--- End report ---")
 
 def word_count(text):
     words = text.split() 
@@ -31,12 +34,10 @@ def count_chars(text):
                 abc_dict[alpha] += 1
     return abc_dict
 
-def kvp_list(dict): # rename this function. Return only list dict.
+def kvp_list(old_dict):
     list_dict = []
-    for letter in dict:
-        new_dict = {}
-        count = dict[letter]
-        new_dict[letter] = count
+    for item in old_dict:
+        new_dict = dict([('letter', item), ('count', old_dict[item])])
         list_dict.append(new_dict)
     return list_dict
 
